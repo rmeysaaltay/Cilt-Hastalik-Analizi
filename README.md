@@ -1,1 +1,1 @@
-Login ekranı eklendi
+Sonuç ekranı eklendi
