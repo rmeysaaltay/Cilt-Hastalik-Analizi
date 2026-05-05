@@ -1,0 +1,1 @@
+Sonuç ekranı eklendi
