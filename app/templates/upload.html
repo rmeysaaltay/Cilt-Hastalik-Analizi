@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Analiz Yap — CiltAI{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Cildinizi <span>analiz</span> edelim</h1>
+<p class="page-sub">Yüz fotoğrafınızı yükleyin, yapay zeka saniyeler içinde analiz etsin</p>
+
+<div class="upload-card">
+    <label for="fileInput" class="drop-zone" id="dropZone">
+        <div class="drop-icon">📷</div>
+        <div class="drop-text">Fotoğrafı buraya sürükleyin</div>
+        <div class="drop-sub">PNG, JPG veya JPEG — maks. 5 MB</div>
+    </label>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
+        <div id="preview-container">
+            <img id="preview" src="" alt="Önizleme">
+        </div>
+
+        <div class="or-divider"><span>veya</span></div>
+
+        <label for="fileInput" class="file-label">Bilgisayardan seç</label>
+        <input type="file" name="photo" accept="image/*" required id="fileInput">
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <button type="submit" class="submit-btn">Analiz et</button>
+    </form>
+
+    <div class="tips">
+        <span class="tip">İyi aydınlatma</span>
+        <span class="tip">Yüz net görünsün</span>
+        <span class="tip">Makyajsız tercih</span>
+    </div>
+</div>
+
+<script>
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('preview').src = e.target.result;
+                document.getElementById('preview-container').style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}
