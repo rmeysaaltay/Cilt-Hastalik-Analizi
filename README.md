@@ -1,1 +1,1 @@
-Sonuç ekranı eklendi
+Mesaj göster
