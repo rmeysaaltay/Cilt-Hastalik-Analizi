@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}Gecmisim — CiltAI{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Geçmiş <span>Analizlerim</span></h1>
+
+{% if analizler %}
+    {% for analiz in analizler %}
+    <div class="history-item">
+        <img src="{{ url_for('static', filename='uploads/' + analiz.filename) }}" alt="Analiz">
+        <div>
+            <div class="history-skin-type">{{ analiz.sonuc }}</div>
+            <div class="skin-desc">{{ analiz.detay }}</div>
+            <div class="score-row">
+                <span class="score-label">Skor</span>
+                <div class="score-bar">
+                    <div class="score-fill" style="width: {{ analiz.skor }}%"></div>
+                </div>
+                <span class="score-num">{{ analiz.skor }}/100</span>
+            </div>
+            <div class="history-date">{{ analiz.created_at.strftime('%d.%m.%Y %H:%M') }}</div>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <div class="empty-state">Henuz analiz bulunmamaktadir.</div>
+{% endif %}
+
+<a href="/upload" class="outline-btn">Yeni analiz yap</a>
+{% endblock %}
