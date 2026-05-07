@@ -1,1 +1,2 @@
-Sonuç ekranı eklendi
+Sonuç ekranı eklendi.
+
