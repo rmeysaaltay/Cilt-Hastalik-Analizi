@@ -1,1 +1,1 @@
-Sonuç ekranı eklendi
+Fotoğraflar eğitilen YOLOv8 modeline gönderiliyor
