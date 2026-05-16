@@ -1,45 +1,29 @@
-# CiltAI — Yapay Zeka Destekli Cilt Analiz Projesi
 
-Bu proje, YOLOv8 modelini kullanarak cilt lezyonlarını analiz eden ve kullanıcılara modern bir arayüz üzerinden tavsiyeler sunan bir Flask web uygulamasıdır.
+# 🩺 CiltAI — Yapay Zeka Destekli Cilt Analiz Projesi
 
-## 🚀 Başlangıç
+CiltAI, **YOLOv8** tabanlı nesne tespiti (object detection) modelini kullanarak cilt üzerindeki lezyonları analiz eden ve kullanıcılara modern bir web arayüzü üzerinden geri bildirim sağlayan **Flask** tabanlı bir web uygulamasıdır.
 
-Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
-
-### 1. Gereksinimler
-- Python 3.8+
-- Sanal ortam (venv)
-
-### 2. Kurulum ve Çalıştırma
-```bash
-# Proje klasörüne gidin
-cd "skin-analysis-project kopyası"
-
-# Sanal ortamı aktif edin
-source venv/bin/activate
-
-# Gerekli paketleri yükleyin (Eğer eksikse)
-pip install -r requirements.txt
-
-# Uygulamayı başlatın
-python run.py
-```
-
-### 3. Kullanım
-Tarayıcınızdan `http://127.0.0.1:5001` adresine giderek analiz yapmaya başlayabilirsiniz.
-
-## 📁 Proje Yapısı
-- `app/`: Flask uygulama çekirdeği (Routes, Models, Templates, Static).
-- `scripts/`: Model eğitimi (`train_yolo.py`) ve veri seti analiz (`analyze_dataset.py`) araçları.
-- `datasets/`: Otomatik etiketlenen yeni verilerin toplandığı alan.
-- `best.pt`: Eğitilmiş YOLOv8 model ağırlıkları.
-
-## ✨ Özellikler
-- **YOLOv8 Analizi:** Saniyeler içinde hastalık tespiti.
-- **Explainability (Isı Haritası):** Modelin odaklandığı alanın görselleştirilmesi.
-- **Auto-Labeling:** Yüklenen her fotoğrafın otomatik etiketlenerek veri setine katılması.
-- **Modern UI:** AOS animasyonlu, responsive tasarım.
+Uygulama, sadece tespit yapmakla kalmayıp modelin kararlarını açıklanabilir kılmak için ısı haritaları üretir ve sürekli öğrenme için otomatik etiketleme mekanizması barındırır.
 
 ---
-*Tıbbi Uyarı: Bu uygulama sadece bilgilendirme amaçlıdır. Kesin teşhis için doktora danışılmalıdır.*
 
+## ✨ Özellikler
+
+*   🎯 **YOLOv8 Nesne Tespiti:** Yüklenen görseller üzerinde saniyeler içinde yüksek doğrulukla cilt lezyonu tespiti.
+*   🔍 **Açıklanabilir Yapay Zeka (XAI):** Modelin görsel üzerinde tam olarak nereye odaklandığını gösteren **Isı Haritası (Heatmap)** desteği.
+*   🔄 **Otomatik Etiketleme (Auto-Labeling):** Kullanıcıların yüklediği yeni fotoğrafların otomatik olarak etiketlenip `datasets/` klasörüne aktarılarak veri setinin sürekli büyümesi.
+*   🎨 **Modern & Responsive UI:** Mobil uyumlu, kullanıcı dostu ve **AOS (Animate On Scroll)** kütüphanesi ile zenginleştirilmiş dinamik arayüz.
+
+---
+
+## 📁 Proje Yapısı
+
+```text
+├── app/                  # Flask uygulama çekirdeği (Routes, Models, Templates, Static)
+├── scripts/              # Model araçları
+│   ├── train_yolo.py     # YOLOv8 model eğitim scripti
+│   └── analyze_dataset.py# Veri seti analiz ve istatistik aracı
+├── datasets/             # Otomatik etiketlenen yeni verilerin toplandığı dizin
+├── best.pt               # Eğitilmiş en iyi YOLOv8 model ağırlıkları
+├── run.py                # Uygulamayı başlatan ana script
+└── requirements.txt      # Proje bağımlılıkları
