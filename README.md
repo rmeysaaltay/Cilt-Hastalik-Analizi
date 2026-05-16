@@ -27,3 +27,4 @@ Uygulama, sadece tespit yapmakla kalmayıp modelin kararlarını açıklanabilir
 ├── best.pt               # Eğitilmiş en iyi YOLOv8 model ağırlıkları
 ├── run.py                # Uygulamayı başlatan ana script
 └── requirements.txt      # Proje bağımlılıkları
+.
