@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Analiz Sonucu — CiltAI{% endblock %}
+
+{% block content %}
+
+<div class="result-hero">
+    <img class="result-img" src="{{ url_for('static', filename=image_path) }}" alt="Cilt fotografi">
+    <div>
+        <div class="skin-type">{{ result.sonuc }}</div>
+        <div class="skin-desc">{{ result.detay }}</div>
+        <div class="score-row">
+            <span class="score-label">Cilt skoru</span>
+            <div class="score-bar">
+                <div class="score-fill" style="width: {{ result.skor }}%"></div>
+            </div>
+            <span class="score-num">{{ result.skor }}/100</span>
+        </div>
+    </div>
+</div>
+
+<p class="recs-title">Öneriler</p>
+<div class="recs-grid">
+    {% for oneri in result.oneriler %}
+    <div class="rec-card">
+        <div class="rec-desc">{{ oneri }}</div>
+    </div>
+    {% endfor %}
+</div>
+
+<a href="/upload" class="outline-btn">Yeni analiz yap</a>
+
+{% endblock %}

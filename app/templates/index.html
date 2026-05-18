@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}CiltAI — Yapay Zeka ile Cilt Analizi{% endblock %}
+
+{% block content %}
+
+<section class="hero">
+    <div class="hero-badge">Yapay Zeka Destekli</div>
+    <h1 class="hero-title">Cildinizi <span>tanıyın</span>,<br>daha iyi bakın</h1>
+    <p class="hero-sub">Tek bir fotoğrafla cilt tipinizi öğrenin, kişiselleştirilmiş bakım önerileri alın.</p>
+    <a href="/upload" class="hero-btn">Ücretsiz Analiz Yap</a>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <div class="feature-icon">🔬</div>
+        <h3>Yapay Zeka Analizi</h3>
+        <p>Gelişmiş görüntü işleme teknolojisiyle cildinizi saniyeler içinde analiz eder.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>Kişisel Öneriler</h3>
+        <p>Cilt tipinize özel bakım rutini ve ürün önerileri sunar.</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Geçmiş Takibi</h3>
+        <p>Önceki analizlerinizi kaydedin, cildinizin değişimini takip edin.</p>
+    </div>
+</section>
+
+<section class="cta">
+    <h2>Hemen başlayın</h2>
+    <p>Fotoğraf yükleyin, saniyeler içinde sonuç alın.</p>
+    <a href="/upload" class="hero-btn">Analiz Yap</a>
+</section>
+
+{% endblock %}
