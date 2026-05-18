@@ -11,10 +11,12 @@ def allowed_file(filename):
 
 @upload_bp.route('/upload', methods=['GET', 'POST'])
 def upload():
+    # SAM1-34: Kullanıcı fotoğraf yükleyebilmeli (GET)
     if request.method == 'POST':
+        # SAM1-45: Fotoğraf yükleme alanı (POST)
         file = request.files.get('photo')
 
-        # SAM1-36: Hatalı yüklemede uyarı
+        # SAM1-36: Kullanıcı hatalı yüklemede uyarı almalı
         if not file or file.filename == '':
             return render_template('upload.html', error='Lütfen bir dosya seçin.')
         
@@ -25,7 +27,8 @@ def upload():
         save_path = os.path.join('app/static/uploads', filename)
         file.save(save_path)
 
-        # SAM1-49: Analiz sayfasına yönlendir
+        # SAM1-49: Yüklenen fotoğraf verisini analiz sürecine gönder
         return redirect(url_for('analysis.analyze', filename=filename))
 
+    # SAM1-45: Fotoğraf yükleme alanı
     return render_template('upload.html')
