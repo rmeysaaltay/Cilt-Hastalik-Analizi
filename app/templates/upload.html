@@ -3,51 +3,83 @@
 {% block title %}Analiz Yap — CiltAI{% endblock %}
 
 {% block content %}
-<h1 class="page-title">Cildinizi <span>analiz</span> edelim</h1>
-<p class="page-sub">Yüz fotoğrafınızı yükleyin, yapay zeka saniyeler içinde analiz etsin</p>
+<div class="section-container" data-aos="zoom-in" style="max-width: 800px; margin-top: 100px;">
+    <h1 class="page-title">Cildinizi <span>analiz</span> edelim</h1>
+    <p class="page-sub">Yüz fotoğrafınızı yükleyin, yapay zeka saniyeler içinde analiz etsin</p>
 
-<div class="upload-card">
-    <label for="fileInput" class="drop-zone" id="dropZone">
-        <div class="drop-icon">📷</div>
-        <div class="drop-text">Fotoğrafı buraya sürükleyin</div>
-        <div class="drop-sub">PNG, JPG veya JPEG — maks. 5 MB</div>
-    </label>
+    <div class="upload-card" style="padding: 40px; display: flex; flex-direction: column; align-items: center;">
+        <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm" style="width: 100%;">
+            <!-- SAM1-45: Fotoğraf yükleme alanı -->
+            <label for="fileInput" class="drop-zone" id="dropZone" style="border: 2px dashed var(--secondary-blue); background: #f0f7ff; width: 100%; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; margin-bottom: 20px;">
+                <div class="drop-icon" style="font-size: 40px; margin-bottom: 10px;">📷</div>
+                <div class="drop-text" style="font-weight: 600; color: var(--text-dark);">Fotoğrafı buraya sürükleyin</div>
+                <div class="drop-sub" style="font-size: 13px; color: var(--text-muted);">PNG, JPG veya JPEG — maks. 5 MB</div>
+            </label>
 
-    <form action="/upload" method="POST" enctype="multipart/form-data" id="uploadForm">
-        <div id="preview-container">
-            <img id="preview" src="" alt="Önizleme">
+            <!-- SAM1-35: Kullanıcı fotoğraf önizlemesini görebilmeli -->
+            <div id="preview-container" style="display: none; text-align: center; margin-bottom: 20px; width: 100%;">
+                <p style="font-weight: 600; margin-bottom: 10px; color: var(--primary-orange);">Ön İzleme</p>
+                <img id="preview" src="" alt="Önizleme" style="max-width: 100%; max-height: 300px; border-radius: 15px; box-shadow: var(--card-shadow); border: 2px solid var(--secondary-blue);">
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
+                <label for="fileInput" class="hero-btn" style="background: var(--secondary-blue); cursor: pointer; width: 100%; text-align: center; padding: 15px;">Bilgisayardan seç</label>
+                <input type="file" name="photo" accept="image/*" required id="fileInput" style="display: none;">
+
+                {% if error %}
+                    <p class="error" style="color: #e53e3e; margin: 10px 0;">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="hero-btn" style="width: 100%; padding: 15px;">Analizi Başlat</button>
+            </div>
+        </form>
+
+        <div class="tips" style="margin-top: 35px; display: flex; justify-content: center; gap: 20px; width: 100%; flex-wrap: wrap;">
+            <span class="tip" style="background: #ebf8ff; color: #2b6cb0; border: none; padding: 8px 15px; border-radius: 50px; font-size: 13px;">💡 İyi aydınlatma</span>
+            <span class="tip" style="background: #ebf8ff; color: #2b6cb0; border: none; padding: 8px 15px; border-radius: 50px; font-size: 13px;">👤 Yüz net görünsün</span>
+            <span class="tip" style="background: #ebf8ff; color: #2b6cb0; border: none; padding: 8px 15px; border-radius: 50px; font-size: 13px;">🧴 Makyajsız tercih</span>
         </div>
-
-        <div class="or-divider"><span>veya</span></div>
-
-        <label for="fileInput" class="file-label">Bilgisayardan seç</label>
-        <input type="file" name="photo" accept="image/*" required id="fileInput">
-
-        {% if error %}
-            <p class="error">{{ error }}</p>
-        {% endif %}
-
-        <button type="submit" class="submit-btn">Analiz et</button>
-    </form>
-
-    <div class="tips">
-        <span class="tip">İyi aydınlatma</span>
-        <span class="tip">Yüz net görünsün</span>
-        <span class="tip">Makyajsız tercih</span>
     </div>
 </div>
 
 <script>
-    document.getElementById('fileInput').addEventListener('change', function(e) {
-        const file = e.target.files[0];
+    const fileInput = document.getElementById('fileInput');
+    const dropZone = document.getElementById('dropZone');
+    const preview = document.getElementById('preview');
+    const previewContainer = document.getElementById('preview-container');
+
+    fileInput.addEventListener('change', function(e) { handleFiles(e.target.files); });
+
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, preventDefaults, false);
+    });
+
+    function preventDefaults (e) { e.preventDefault(); e.stopPropagation(); }
+
+    ['dragenter', 'dragover'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => { dropZone.style.background = '#e1effe'; }, false);
+    });
+
+    ['dragleave', 'drop'].forEach(eventName => {
+        dropZone.addEventListener(eventName, () => { dropZone.style.background = '#f0f7ff'; }, false);
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        const files = e.dataTransfer.files;
+        fileInput.files = files;
+        handleFiles(files);
+    }, false);
+
+    function handleFiles(files) {
+        const file = files[0];
         if (file) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById('preview').src = e.target.result;
-                document.getElementById('preview-container').style.display = 'block';
+                preview.src = e.target.result;
+                previewContainer.style.display = 'block';
             }
             reader.readAsDataURL(file);
         }
-    });
+    }
 </script>
 {% endblock %}
